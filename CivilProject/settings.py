@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,7 +25,7 @@ SECRET_KEY = 'v%5nhcac*=%o=x_0%ncfr%s@s053po+^-c)%ymstdhx9ax)bxg'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['ehsanmoqimi.ir' ,'127.0.0.1:8000','127.0.0.1','api.ehsanmoqimi.ir' ]
 
 
 # Application definition
@@ -38,7 +38,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'service'
+    'service',
+    'blog',
+    'taggit',
+    'ckeditor',
+    'ckeditor_uploader',
+    'django_jalali',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -49,8 +55,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
-
+CORS_ORIGIN_ALLOW_ALL = True # If this is used then `CORS_ORIGIN_WHITELIST` will not have any effect
+CORS_ALLOW_CREDENTIALS = True
 ROOT_URLCONF = 'CivilProject.urls'
 
 TEMPLATES = [
@@ -71,15 +79,26 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'CivilProject.wsgi.application'
 
+REST_FRAMEWORK = {
+'DATETIME_FORMAT': '%s',
+}
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+       'ENGINE': 'django.db.backends.sqlite3',
+       'NAME': BASE_DIR / 'db.sqlite3',
     }
+# 'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'civil',
+#         'USER': 'root',
+#         'PASSWORD': '1233',
+#         'HOST': 'localhost',
+#         'PORT': '',
+#     }
 }
 
 
@@ -121,3 +140,21 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD='django.db.models.AutoField' 
+
+STATICFILES_DIRS = [
+    BASE_DIR / "statics",
+]
+
+STATIC_ROOT = os.path.join(BASE_DIR , 'static/')
+
+MEDIA_ROOT = BASE_DIR / 'media/'
+
+MEDIA_URL = '/media/'
+
+CKEDITOR_UPLOAD_PATH = "uploads/"
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full',
+    },
+}
